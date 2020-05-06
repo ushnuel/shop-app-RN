@@ -1,0 +1,13 @@
+export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
+export const REMOVE_PRODUCT_FROM_CART = 'REMOVE_PRODUCT_FROM_CART';
+export const ADD_ORDER = 'ADD_ORDER';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+export const SET_PRODUCT = 'SET_PRODUCT';
+export const SET_ORDER = 'SET_ORDER';
+export const AUTO_SIGN_IN = 'AUTO_SIGN_IN';
+export const LOGOUT = 'LOGOUT';
+export const FORM_INPUT_REDUCER = 'FORM_INPUT_REDUCER';
+export const INPUT_CHANGE = 'INPUT_CHANGE';
+export const INPUT_BLUR = 'INPUT_BLUR';
