@@ -1,15 +1,24 @@
-import React, { useReducer, useState, useCallback, useEffect } from 'react';
-import { Button, View, KeyboardAvoidingView, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useDispatch } from 'react-redux';
+import React, { useReducer, useState, useCallback, useEffect } from "react";
+import {
+  Button,
+  View,
+  KeyboardAvoidingView,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+  Platform,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useDispatch } from "react-redux";
 
-import Input from '../../components/UI/Input';
-import Card from '../../components/UI/Card';
-import Colors from '../../constants/Colors';
-import * as actionCreators from '../../store/actions';
-import formInputReducer from '../../components/UI/Form';
+import Input from "../../components/UI/Input";
+import Card from "../../components/UI/Card";
+import Colors from "../../constants/Colors";
+import * as actionCreators from "../../store/actions";
+import formInputReducer from "../../components/UI/Form";
 
-const FORM_INPUT_REDUCER = 'FORM_INPUT_REDUCER';
+const FORM_INPUT_REDUCER = "FORM_INPUT_REDUCER";
 
 const authScreen = (props) => {
   const dispatch = useDispatch();
@@ -19,8 +28,8 @@ const authScreen = (props) => {
 
   const [formState, dispatchFormState] = useReducer(formInputReducer, {
     inputValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     inputValidites: {
       email: false,
@@ -38,16 +47,18 @@ const authScreen = (props) => {
         input: inputIdentifier,
       });
     },
-    [dispatchFormState],
+    [dispatchFormState]
   );
 
   const authHandler = async () => {
     const { inputValues, formValidity } = formState;
 
     if (!formValidity) {
-      Alert.alert('Input Validation Failed', 'One or more input fields failed validation, please try again!', [
-        { text: 'okay' },
-      ]);
+      Alert.alert(
+        "Input Validation Failed",
+        "One or more input fields failed validation, please try again!",
+        [{ text: "okay" }]
+      );
       return;
     }
 
@@ -56,14 +67,22 @@ const authScreen = (props) => {
     let action;
 
     if (isSignUp) {
-      action = actionCreators.authenticate(inputValues.email, inputValues.password, 'SIGNUP');
+      action = actionCreators.authenticate(
+        inputValues.email,
+        inputValues.password,
+        "SIGNUP"
+      );
     } else {
-      action = actionCreators.authenticate(inputValues.email, inputValues.password, 'SIGNIN');
+      action = actionCreators.authenticate(
+        inputValues.email,
+        inputValues.password,
+        "SIGNIN"
+      );
     }
 
     try {
       await dispatch(action);
-      props.navigation.navigate('Shop');
+      props.navigation.navigate("Shop");
     } catch (error) {
       setError(error.message);
       setIsLoading(false);
@@ -72,45 +91,49 @@ const authScreen = (props) => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert('Error occurred!', error, [{ text: 'okay' }]);
+      Alert.alert("Error occurred!", error, [{ text: "okay" }]);
       return;
     }
   }, [error]);
 
   return (
-    <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={50} style={styles.screen}>
-      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "android" ? "height" : "padding"}
+      keyboardVerticalOffset={10}
+      style={styles.screen}
+    >
+      <LinearGradient colors={["#ffedff", "#ffe3ff"]} style={styles.gradient}>
         <Card style={styles.authContainer}>
           <ScrollView>
             <Input
-              id='email'
-              label='E-mail'
+              id="email"
+              label="E-mail"
               email
               required
               onInputChange={inputChangeHandler}
-              initialValue=''
+              initialValue=""
               initiallyValid={false}
-              errorText='Please enter a valid email address'
-              keyBoardType='email-address'
+              errorText="Please enter a valid email address"
+              keyBoardType="email-address"
             />
             <Input
-              id='password'
-              label='Password'
+              id="password"
+              label="Password"
               minLength={8}
               required
               onInputChange={inputChangeHandler}
-              initialValue=''
+              initialValue=""
               initiallyValid={false}
-              errorText='Please enter a valid password'
-              keyBoardType='password'
+              errorText="Please enter a valid password"
+              keyBoardType="password"
               secureTextEntry
             />
             <View style={styles.button}>
               {isLoading ? (
-                <ActivityIndicator size='large' color={Colors.primary} />
+                <ActivityIndicator size="large" color={Colors.primary} />
               ) : (
                 <Button
-                  title={isSignUp ? 'SIGN UP' : 'LOGIN'}
+                  title={isSignUp ? "SIGN UP" : "LOGIN"}
                   color={Colors.primary}
                   onPress={authHandler}
                   disabled={!formState.formValidity ? true : false}
@@ -119,7 +142,7 @@ const authScreen = (props) => {
             </View>
             <View style={styles.button}>
               <Button
-                title={isSignUp ? 'SIGN IN INSTEAD' : 'SIGN UP TO CONTINUE'}
+                title={isSignUp ? "SIGN IN INSTEAD" : "SIGN UP TO CONTINUE"}
                 color={Colors.accent}
                 onPress={() => {
                   setIsSignUp((prevState) => !prevState);
@@ -134,7 +157,7 @@ const authScreen = (props) => {
 };
 
 authScreen.navigationOptions = {
-  headerTitle: 'Authenticate',
+  headerTitle: "Authenticate",
 };
 const styles = StyleSheet.create({
   screen: {
@@ -142,13 +165,13 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   authContainer: {
     padding: 20,
     maxHeight: 400,
-    width: '80%',
+    width: "80%",
     maxWidth: 400,
     borderRadius: 10,
   },
